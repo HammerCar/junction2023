@@ -5,6 +5,11 @@ services:
       - "80:80"
     depends_on:
       - "api"
+      - "frontend"
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
     restart: unless-stopped
 
   api:
