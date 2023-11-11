@@ -1,21 +1,21 @@
 import { Spinner, VStack } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { QueryResultComponent } from '../lib/components/QueryResult'
+import { useQuery } from '../lib/hooks/useQuery'
 import { QueryResult } from '../lib/types'
 
 function Results() {
-  const { q } = useParams()
+  const query = useQuery()
   const [results, setResults] = useState<QueryResult[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetch(`https://whisper.tear.fi/api/query?q=${q}`)
+    fetch(`https://whisper.tear.fi/api/query?q=${query.get('q')}`)
       .then((res) => res.json())
       .then((data) => setResults(data.results))
       .catch((err) => console.log(err))
       .finally(() => setLoading(false))
-  }, [q])
+  }, [query])
 
   return (
     <VStack minH="100vh" p="4" boxSizing="content-box" bg="gray.900" justifyContent="flex-start" pt="16">

@@ -10,7 +10,9 @@ export const QueryResultComponent: FC<{ result: QueryResult }> = ({ result }) =>
         <Heading as="h2" size="md">
           {result.title}
         </Heading>
-        <Text color="gray.500">{dayjs(result.published).format('DD.MM.YYYY HH:mm')}</Text>
+        <Text color="gray.500" minW="16ch">
+          {dayjs(result.published).format('DD.MM.YYYY HH:mm')}
+        </Text>
       </Flex>
       <Text color="gray.500">
         score:{' '}
