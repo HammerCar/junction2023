@@ -20,6 +20,7 @@ const inletSchema = z.object({
   source: z.string(),
   scraper: z.string(),
   published: z.number().int().min(0), // Unix timestamp in seconds
+  embedding: z.array(z.number()).optional(),
 })
 
 app.post("/inlet", async (req: Request, res: Response) => {
@@ -34,18 +35,20 @@ app.post("/inlet", async (req: Request, res: Response) => {
 
   console.log("inlet received")
 
-  let embedding
-  try {
-    embedding = await embedText(inlet.data.text)
-  } catch (e) {
-    console.error(e)
+  let embedding = inlet.data.embedding
+  if (!embedding) {
+    try {
+      embedding = await embedText(inlet.data.text)
+    } catch (e) {
+      console.error(e)
 
-    res.json({
-      status: "error",
-      message: "Error embedding text",
-    })
+      res.json({
+        status: "error",
+        message: "Error embedding text",
+      })
 
-    return
+      return
+    }
   }
 
   const data = {

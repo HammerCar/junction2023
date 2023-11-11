@@ -6,7 +6,7 @@ const address = process.env.MILVUS_ADDRESS || "localhost:19530"
 const client = new MilvusClient({ address })
 
 // define schema
-const collection_name = "store"
+const collection_name = "store_news"
 const schema = [
   {
     name: "id",
@@ -19,7 +19,7 @@ const schema = [
     name: "embedding",
     description: "Vector field",
     data_type: DataType.FloatVector,
-    dim: 4096,
+    dim: 768,
   },
   {
     name: "title",
