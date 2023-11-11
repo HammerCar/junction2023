@@ -10,13 +10,13 @@ services:
       - 11434:11434
     volumes:
       - ollama:/root/.ollama
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities:
-                - gpu
-              count: all
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - capabilities:
+#                - gpu
+#              count: all
 
   etcd:
     container_name: milvus-etcd
