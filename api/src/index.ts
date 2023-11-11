@@ -104,7 +104,11 @@ app.get("/query", async (req: Request, res: Response) => {
 
   res.json({
     status: "success",
-    results: queryResults.results,
+    results: queryResults.results.map((result) => ({
+      ...result,
+      text: undefined,
+      textPreview: result.text.slice(0, 200),
+    })),
   })
 })
 

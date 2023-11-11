@@ -109,7 +109,7 @@ export const queryEmbeddingDb = async (embedding: number[]) => {
     params: { nprobe: 64 },
     limit: 10,
     metric_type: "L2",
-    output_fields: ["title", "source", "scraper", "published"],
+    output_fields: ["title", "text", "source", "scraper", "published"],
   })
 
   return res
