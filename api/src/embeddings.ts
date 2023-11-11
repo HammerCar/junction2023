@@ -23,6 +23,5 @@ export default async function embedText(text: string) {
     throw new Error("extractor not initialized")
   }
 
-  console.log("embedText")
-  return (await extractor(text, { pooling: "mean", normalize: true })) as number[]
+  return Object.values<number>((await extractor(text, { pooling: "mean", normalize: true })).data)
 }

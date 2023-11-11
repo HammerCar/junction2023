@@ -32,8 +32,6 @@ app.post("/inlet", async (req: Request, res: Response) => {
     })
   }
 
-  console.log("inlet received")
-
   let embedding = inlet.data.embedding
   if (!embedding) {
     try {
@@ -56,11 +54,7 @@ app.post("/inlet", async (req: Request, res: Response) => {
     published: new Date(inlet.data.published * 1000),
   }
 
-  console.log("Insert")
-
   await insertDb(data)
-
-  console.log("Success")
 
   res.json({
     status: "success",
