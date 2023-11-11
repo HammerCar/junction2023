@@ -12,15 +12,12 @@ function App() {
   useEffect(() => {
     if (query.length > 2) {
       setLoading(true)
-      fetch(`https://api.github.com/search/repositories?q=${query}`)
+      fetch(`https://whisper.tear.fi/api/query?q=${query}`)
         .then((res) => res.json())
-        .then((data) => {
-          setResults(data.items)
-        })
+        .then((data) => setResults(data.results))
         .catch((err) => {
           console.error(err)
           setResults([])
-          setLoading(false)
         })
         .finally(() => {
           setLoading(false)
