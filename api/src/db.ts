@@ -105,7 +105,7 @@ export const queryDb = async (embedding: number[]) => {
   const res = await client.search({
     collection_name,
     vector: embedding,
-    filter: "height > 0",
+    //filter: "height > 0",
     params: { nprobe: 64 },
     limit: 10,
     metric_type: "L2",
