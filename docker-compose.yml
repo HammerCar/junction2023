@@ -1,2 +1,7 @@
 services:
-  
+  ollama:
+    image: ollama/ollama:0.1.9
+    volumes:
+      - ollama:/root/.ollama
+volumes:
+  ollama:
