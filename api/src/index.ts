@@ -1,9 +1,8 @@
 import "dotenv/config"
 import express, { Request, Response } from "express"
 import { z } from "zod"
-import { insertDb, queryEmbeddingDb, queryIdDb } from "./db"
-import embedText from "./embeddings"
-import "./llm"
+import { insertDb, queryEmbeddingDb, queryIdDb } from "./db.js"
+import embedText from "./embeddings.js"
 
 const app = express()
 const port = process.env.PORT || 3000
