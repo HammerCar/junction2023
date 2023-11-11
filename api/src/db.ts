@@ -65,6 +65,10 @@ const init = async () => {
     params: { efConstruction: 10, M: 4 },
     metric_type: "L2",
   })
+
+  await client.loadCollectionSync({
+    collection_name,
+  })
 }
 
 init()
@@ -78,7 +82,7 @@ interface InsertData {
   published: Date
 }
 
-export const insert = async (data: InsertData) => {
+export const insertDb = async (data: InsertData) => {
   const fields_data = [
     {
       embedding: data.embedding,
@@ -95,4 +99,18 @@ export const insert = async (data: InsertData) => {
     collection_name,
     fields_data,
   })
+}
+
+export const queryDb = async (embedding: number[]) => {
+  const res = await client.search({
+    collection_name,
+    vector: embedding,
+    filter: "height > 0",
+    params: { nprobe: 64 },
+    limit: 10,
+    metric_type: "L2",
+    //output_fields: ["height", "name"],
+  })
+
+  return res
 }

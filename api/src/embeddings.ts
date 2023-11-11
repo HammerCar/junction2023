@@ -6,6 +6,6 @@ const embeddings = new OllamaEmbeddings({
 })
 
 export default async function embedText(text: string) {
-  console.log("embedText", text)
+  console.log("embedText")
   return embeddings.embedQuery(text)
 }
