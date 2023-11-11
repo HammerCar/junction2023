@@ -1,3 +1,4 @@
+import cors from "cors"
 import "dotenv/config"
 import express, { Request, Response } from "express"
 import { z } from "zod"
@@ -8,6 +9,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.use(express.json())
+app.use(cors())
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server")
@@ -108,7 +110,7 @@ app.get("/query", async (req: Request, res: Response) => {
       ...result,
       text: undefined,
       textPreview: result.text.slice(0, 200),
-      published: new Date(result.published).getTime() / 1000,
+      published: new Date(Number(result.published)).getTime() / 1000,
     })),
   })
 })
@@ -144,7 +146,7 @@ app.get("/get", async (req: Request, res: Response) => {
 
   res.json({
     status: "success",
-    result: { ...result, published: new Date(result.published).getTime() / 1000 },
+    result: { ...result, published: new Date(Number(result.published)).getTime() / 1000 },
   })
 })
 
