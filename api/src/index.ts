@@ -108,6 +108,7 @@ app.get("/query", async (req: Request, res: Response) => {
       ...result,
       text: undefined,
       textPreview: result.text.slice(0, 200),
+      published: new Date(result.published).getTime() / 1000,
     })),
   })
 })
@@ -139,9 +140,11 @@ app.get("/get", async (req: Request, res: Response) => {
     return
   }
 
+  const result = queryResults.data[0]
+
   res.json({
     status: "success",
-    result: queryResults.data[0],
+    result: { ...result, published: new Date(result.published).getTime() / 1000 },
   })
 })
 
