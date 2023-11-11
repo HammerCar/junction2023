@@ -89,8 +89,6 @@ app.get("/query", async (req: Request, res: Response) => {
     return
   }
 
-  console.log("Query")
-
   const queryResults = await queryEmbeddingDb(embedding)
 
   if (queryResults.status.error_code !== "Success") {
@@ -103,8 +101,6 @@ app.get("/query", async (req: Request, res: Response) => {
 
     return
   }
-
-  console.log("Success")
 
   res.json({
     status: "success",
@@ -126,8 +122,6 @@ app.get("/get", async (req: Request, res: Response) => {
     })
   }
 
-  console.log("Query")
-
   const queryResults = await queryIdDb(query.data.id)
 
   if (queryResults.status.error_code !== "Success") {
@@ -141,11 +135,9 @@ app.get("/get", async (req: Request, res: Response) => {
     return
   }
 
-  console.log("Success")
-
   res.json({
     status: "success",
-    results: queryResults.data,
+    result: queryResults.data[0],
   })
 })
 
