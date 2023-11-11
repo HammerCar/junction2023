@@ -101,7 +101,7 @@ export const insertDb = async (data: InsertData) => {
   })
 }
 
-export const queryDb = async (embedding: number[]) => {
+export const queryEmbeddingDb = async (embedding: number[]) => {
   const res = await client.search({
     collection_name,
     vector: embedding,
@@ -109,8 +109,27 @@ export const queryDb = async (embedding: number[]) => {
     params: { nprobe: 64 },
     limit: 10,
     metric_type: "L2",
-    //output_fields: ["height", "name"],
+    output_fields: ["title", "source", "scraper", "published"],
   })
+
+  return res
+}
+
+export const queryIdDb = async (id: string) => {
+  const res = await client.get({
+    collection_name,
+    ids: [id],
+    output_fields: ["title", "text", "source", "scraper", "published"],
+  })
+
+  /*const res = await client.search({
+    collection_name,
+    filter: "id = " + id,
+    params: { nprobe: 64 },
+    limit: 1,
+    metric_type: "L2",
+    //output_fields: ["height", "name"],
+  })*/
 
   return res
 }

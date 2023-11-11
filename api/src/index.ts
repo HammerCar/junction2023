@@ -1,7 +1,7 @@
 import "dotenv/config"
 import express, { Request, Response } from "express"
 import { z } from "zod"
-import { insertDb, queryDb } from "./db"
+import { insertDb, queryEmbeddingDb, queryIdDb } from "./db"
 import embedText from "./embeddings"
 import "./llm"
 
@@ -95,7 +95,7 @@ app.get("/query", async (req: Request, res: Response) => {
 
   console.log("Query")
 
-  const queryResults = await queryDb(embedding)
+  const queryResults = await queryEmbeddingDb(embedding)
 
   if (queryResults.status.error_code !== "Success") {
     console.error(queryResults)
@@ -113,6 +113,43 @@ app.get("/query", async (req: Request, res: Response) => {
   res.json({
     status: "success",
     results: queryResults.results,
+  })
+})
+
+const getSchema = z.object({
+  id: z.string(),
+})
+
+app.get("/get", async (req: Request, res: Response) => {
+  const query = getSchema.safeParse(req.query)
+
+  if (!query.success) {
+    return res.status(400).json({
+      status: "error",
+      message: query.error,
+    })
+  }
+
+  console.log("Query")
+
+  const queryResults = await queryIdDb(query.data.id)
+
+  if (queryResults.status.error_code !== "Success") {
+    console.error(queryResults)
+
+    res.json({
+      status: "error",
+      message: "Error querying database",
+    })
+
+    return
+  }
+
+  console.log("Success")
+
+  res.json({
+    status: "success",
+    results: queryResults.data,
   })
 })
 
