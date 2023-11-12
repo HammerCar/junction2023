@@ -113,8 +113,6 @@ app.get("/query", async (req: Request, res: Response) => {
       .filter((r) => r.score < (query.data.cutoff || Infinity))
       .map((result) => ({
         ...result,
-        text: undefined,
-        textPreview: result.text.slice(0, 200),
         published: new Date(Number(result.published)).getTime() / 1000,
       })),
   })
