@@ -11,13 +11,13 @@ export const QueryResultComponent: FC<{ result: QueryResult }> = ({ result }) =>
           {result.title}
         </Heading>
         <Text color="gray.500" minW="16ch">
-          {dayjs(result.published).format('DD.MM.YYYY HH:mm')}
+          {dayjs(result.published * 1000).format('DD.MM.YYYY HH:mm')}
         </Text>
       </Flex>
       <Text color="gray.500">
         score:{' '}
         <Text as="span" color="yellow.100">
-          {Math.round(result.score)}
+          {Math.round((Math.tanh(-1 * result.score) + 1) * 100)} %
         </Text>
         <Text>{result.textPreview}</Text>
       </Text>

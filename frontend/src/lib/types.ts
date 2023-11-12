@@ -8,7 +8,7 @@ export type QueryResult = {
   id: string
   source: string
   scraper: string
-  published: string
+  published: number
   title: string
   textPreview: string
 }
