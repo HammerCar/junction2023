@@ -3,6 +3,11 @@ export type ApiResponse<T> = {
   results: Array<T>
 }
 
+export type SingleApiResponse<T> = {
+  status: 'success' | 'error'
+  result: T
+}
+
 export type QueryResult = {
   score: number
   id: string
@@ -10,5 +15,5 @@ export type QueryResult = {
   scraper: string
   published: number
   title: string
-  textPreview: string
+  text: string
 }

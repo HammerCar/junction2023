@@ -5,8 +5,17 @@ import { QueryResult } from '../types'
 
 export const QueryResultComponent: FC<{ result: QueryResult }> = ({ result }) => {
   return (
-    <VStack flex="1" gap="4" p="4" bg="gray.800" borderRadius="md" alignItems="flex-start">
-      <Flex w="full" justifyContent="space-between">
+    <VStack
+      flex="1"
+      gap="4"
+      p="4"
+      bg="gray.800"
+      borderRadius="md"
+      alignItems="flex-start"
+      as="a"
+      href={`/${result.id}`}
+    >
+      <Flex w="full" justifyContent="space-between" wrap="wrap-reverse">
         <Heading as="h2" size="md">
           {result.title}
         </Heading>
@@ -19,7 +28,7 @@ export const QueryResultComponent: FC<{ result: QueryResult }> = ({ result }) =>
         <Text as="span" color="yellow.100">
           {Math.round((Math.tanh(-1 * result.score) + 1) * 100)} %
         </Text>
-        <Text>{result.textPreview}</Text>
+        <Text>{result.text.substring(0, 250)}</Text>
       </Text>
     </VStack>
   )
