@@ -1,21 +1,17 @@
-import { Pipeline, env, pipeline } from "@xenova/transformers"
+import { fork } from "child_process"
+import "./summaryChild.js"
 
-if (process.env.NODE_ENV === "production") {
-  env.localModelPath = "/models/"
-  env.allowRemoteModels = false
-}
+export default function summarize(text: string) {
+  return new Promise<string>((resolve, reject) => {
+    const filename = process.env.NODE_ENV === "production" ? "summaryChild.js" : "summaryChild.ts"
+    const filepath = new URL(filename, import.meta.url).pathname
+    const forked = fork(filepath)
 
-let summarization: Pipeline | null = null
+    forked.on("message", (msg) => {
+      console.log("Message from child", msg)
+      resolve(msg as string)
+    })
 
-const init = async () => {
-  summarization = await pipeline("summarization", "Xenova/distilbart-cnn-6-6")
-}
-init()
-
-export default async function summarize(text: string) {
-  if (!summarization) {
-    throw new Error("summarization not initialized")
-  }
-
-  return (await summarization(text))[0].summary_text as string
+    forked.send(text)
+  })
 }
