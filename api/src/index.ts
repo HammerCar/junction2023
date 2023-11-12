@@ -66,8 +66,8 @@ app.post("/inlet", async (req: Request, res: Response) => {
 
 const querySchema = z.object({
   q: z.string(),
-  limit: z.number().optional(),
-  cutoff: z.number().optional(),
+  limit: z.coerce.number().optional(),
+  cutoff: z.coerce.number().optional(),
 })
 
 app.get("/query", async (req: Request, res: Response) => {
