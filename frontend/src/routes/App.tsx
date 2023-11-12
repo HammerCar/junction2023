@@ -2,7 +2,7 @@ import { Flex, Heading, IconButton, Text, VStack } from '@chakra-ui/react'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { IoSettingsOutline } from 'react-icons/io5'
+import { IoSearch, IoSettingsOutline } from 'react-icons/io5'
 import '../index.css'
 import { useQuestions } from '../lib/hooks/useQuestions'
 import { ApiResponse, QueryResult, SingleApiResponse } from '../lib/types'
@@ -142,8 +142,8 @@ function App() {
                         {line.split('/')[1]}
                       </Text>
                     </Text>
-                    <Text color="gray.500" minW="16ch">
-                      {dayjs(result.date * 1000).format('DD.MM.YYYY HH:mm')}
+                    <Text color="gray.500" minW="10ch">
+                      {dayjs(result.date * 1000).format('DD.MM.YYYY')}
                     </Text>
                   </Flex>
                 ) : (
@@ -168,6 +168,19 @@ function App() {
         right="4"
         as="a"
         href="/settings"
+      />
+
+      <IconButton
+        aria-label="Search"
+        icon={<IoSearch />}
+        colorScheme="gray"
+        variant="ghost"
+        size="lg"
+        position="absolute"
+        top="4"
+        right="16"
+        as="a"
+        href="/search"
       />
     </VStack>
   )
