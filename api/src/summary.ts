@@ -21,7 +21,8 @@ export default async function summarize(text: string) {
     new HumanMessage(text),
   ])
 
-  const summary = typeof res.content === "string" ? res.content : res.content.map((c) => c.text).join("\n")
+  const summary =
+    typeof res.content === "string" ? res.content : res.content.map((c) => c.text || c.image_url).join("\n")
   cache.set(text, summary)
 
   return summary

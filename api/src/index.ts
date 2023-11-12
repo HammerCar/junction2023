@@ -180,6 +180,8 @@ app.get("/summarize", async (req: Request, res: Response) => {
     return
   }
 
+  console.log(JSON.stringify(summaryResults))
+
   res.json({
     status: "success",
     result: summaryResults,
