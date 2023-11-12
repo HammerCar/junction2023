@@ -2,6 +2,7 @@ import { ChatOpenAI } from "langchain/chat_models/openai"
 import { HumanMessage, SystemMessage } from "langchain/schema"
 
 const model = new ChatOpenAI({
+  modelName: "gpt-4",
   temperature: 0,
   openAIApiKey: process.env.OPENAI_API_KEY,
 })
