@@ -101,13 +101,13 @@ export const insertDb = async (data: InsertData) => {
   })
 }
 
-export const queryEmbeddingDb = async (embedding: number[]) => {
+export const queryEmbeddingDb = async (embedding: number[], limit: number = 100) => {
   const res = await client.search({
     collection_name,
     vector: embedding,
     //filter: "height > 0",
     params: { nprobe: 64 },
-    limit: 10,
+    limit,
     metric_type: "L2",
     output_fields: ["title", "text", "source", "scraper", "published"],
   })

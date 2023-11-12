@@ -17,5 +17,5 @@ export default async function summarize(text: string) {
     throw new Error("summarization not initialized")
   }
 
-  return await summarization(text)
+  return (await summarization(text))[0].summary_text as string
 }

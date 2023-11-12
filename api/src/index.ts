@@ -4,6 +4,7 @@ import express, { Request, Response } from "express"
 import { z } from "zod"
 import { insertDb, queryEmbeddingDb, queryIdDb } from "./db.js"
 import embedText from "./embeddings.js"
+import summarize from "./summary.js"
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -65,6 +66,8 @@ app.post("/inlet", async (req: Request, res: Response) => {
 
 const querySchema = z.object({
   q: z.string(),
+  limit: z.number().optional(),
+  cutoff: z.number().optional(),
 })
 
 app.get("/query", async (req: Request, res: Response) => {
@@ -91,7 +94,7 @@ app.get("/query", async (req: Request, res: Response) => {
     return
   }
 
-  const queryResults = await queryEmbeddingDb(embedding)
+  const queryResults = await queryEmbeddingDb(embedding, query.data.limit)
 
   if (queryResults.status.error_code !== "Success") {
     console.error(queryResults)
@@ -106,12 +109,14 @@ app.get("/query", async (req: Request, res: Response) => {
 
   res.json({
     status: "success",
-    results: queryResults.results.map((result) => ({
-      ...result,
-      text: undefined,
-      textPreview: result.text.slice(0, 200),
-      published: new Date(Number(result.published)).getTime() / 1000,
-    })),
+    results: queryResults.results
+      .filter((r) => r.score < (query.data.cutoff || Infinity))
+      .map((result) => ({
+        ...result,
+        text: undefined,
+        textPreview: result.text.slice(0, 200),
+        published: new Date(Number(result.published)).getTime() / 1000,
+      })),
   })
 })
 
@@ -150,6 +155,38 @@ app.get("/get", async (req: Request, res: Response) => {
   })
 })
 
+const summarySchema = z.object({
+  text: z.string(),
+})
+
+app.get("/summarize", async (req: Request, res: Response) => {
+  const query = summarySchema.safeParse(req.query)
+
+  if (!query.success) {
+    return res.status(400).json({
+      status: "error",
+      message: query.error,
+    })
+  }
+
+  const summaryResults = await summarize(query.data.text)
+
+  if (!summaryResults) {
+    console.error(summaryResults)
+
+    res.json({
+      status: "error",
+      message: "Error summarizing",
+    })
+
+    return
+  }
+
+  res.json({
+    status: "success",
+    result: summaryResults,
+  })
+})
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
 })

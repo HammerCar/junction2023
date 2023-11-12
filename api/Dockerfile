@@ -21,5 +21,6 @@ COPY --from=builder /app/dist ./dist
 RUN apt-get update && apt-get install -y git git-lfs
 RUN git lfs install
 RUN git clone https://huggingface.co/Xenova/bge-base-en-v1.5 /models/Xenova/bge-base-en-v1.5
+RUN git clone https://huggingface.co/Xenova/distilbart-cnn-6-6 /models/Xenova/distilbart-cnn-6-6
 
 ENTRYPOINT ["node", "./dist/index.js"]
