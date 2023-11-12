@@ -1,4 +1,4 @@
-import { HStack, IconButton, Input, VStack } from '@chakra-ui/react'
+import { HStack, IconButton, Input, Text, VStack } from '@chakra-ui/react'
 import axios from 'axios'
 import { FormEventHandler, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
@@ -24,7 +24,7 @@ function Search() {
     const result = await client.get<ApiResponse<QueryResult>>('/query', {
       params: {
         q: search,
-        limit: 50,
+        limit: 55,
       },
     })
     setResults(result.data.results)
@@ -33,8 +33,8 @@ function Search() {
 
   return (
     <VStack maxW="100vw" minH="100vh" bg="gray.900" justifyContent="flex-start" overflowX="hidden" px="4" pt="16">
-      <HStack maxW="3xl" as="form" onSubmit={handleSubmit}>
-        <Input name="search" id="search" placeholder="Search from 18k articles" />
+      <HStack maxW="3xl" w="full" as="form" onSubmit={handleSubmit}>
+        <Input name="search" id="search" placeholder="Search from more than 30 000 articles!" />
         <IconButton
           type="submit"
           aria-label="Search"
@@ -44,6 +44,7 @@ function Search() {
           isLoading={loading}
         />
       </HStack>
+      {results.length > 0 && <Text>{results.length} results</Text>}
       {results.map((result) => (
         <QueryResultComponent key={result.id} result={result} />
       ))}

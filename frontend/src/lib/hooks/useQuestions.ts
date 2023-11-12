@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 
 export const baseQuestions = [
-  'New bridge projects',
-  'New construction projects',
+  'bridge construction projects',
+  'company starts building',
   'Awarded infrastructure projects',
   'Automotive manufacturers growing',
   'large construction projects',
   'public construction project competition',
 ]
-
 export const useQuestions = () => {
   const [questions, setQuestions] = useState<string[]>([])
 

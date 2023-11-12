@@ -10,24 +10,14 @@ const main = async () => {
   })
 
   let i = 0
-  const max = articles.length
+  const articlesWithoutEmbedding = articles.filter((article) => !article.embedding)
+  const max = articlesWithoutEmbedding.length
 
-  for (const article of articles) {
+  for (const article of articlesWithoutEmbedding) {
     try {
-      const embedding = Object.values(article.embedding.data)
-
-      await client.post(
-        "/api/inlet",
-        {
-          ...article,
-          embedding,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      await client.post("/api/inlet", {
+        ...article,
+      })
 
       i += 1
       if (i % 100 === 0) {

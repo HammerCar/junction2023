@@ -1,6 +1,6 @@
-import { HStack, IconButton, Input, VStack } from '@chakra-ui/react'
+import { Divider, HStack, Heading, IconButton, Input, VStack } from '@chakra-ui/react'
 import axios from 'axios'
-import { ChangeEventHandler, useEffect, useState } from 'react'
+import { ChangeEventHandler, Fragment, useEffect, useState } from 'react'
 import { IoArrowBack } from 'react-icons/io5'
 import { QueryResultComponent } from '../lib/components/QueryResult'
 import { useQuestions } from '../lib/hooks/useQuestions'
@@ -62,21 +62,37 @@ function Settings() {
   }
 
   return (
-    <HStack minH="100vh" p="4" bg="gray.900" alignItems="flex-start" pt="16" overflowX="auto">
-      {questions.map((question, index) => (
-        <VStack h="full" minW="lg">
-          <Input value={question} onChange={handleEdit(index)} />
-          {resultMatrixes[index] && (
-            <VStack>
-              {resultMatrixes[index].map((result) => (
-                <QueryResultComponent key={result.id} result={result} />
-              ))}
+    <VStack
+      minH="100vh"
+      p="4"
+      bg="gray.900"
+      justifyContent="flex-start"
+      pt="16"
+      width="calc(100vw - 1rem)"
+      overflowX="hidden"
+    >
+      <Heading as="h1" size="lg" color="white" textAlign="center" w="full" px="4" maxW="6xl">
+        Base questions for Home page
+      </Heading>
+      <HStack p="4" maxW="100vw" alignItems="flex-start" overflowX="auto">
+        {questions.map((question, index) => (
+          <Fragment key={index}>
+            <VStack h="full" minW="lg">
+              <Input value={question} onChange={handleEdit(index)} />
+              {resultMatrixes[index] && (
+                <VStack>
+                  {resultMatrixes[index].map((result) => (
+                    <QueryResultComponent key={result.id} result={result} />
+                  ))}
+                </VStack>
+              )}
             </VStack>
-          )}
-        </VStack>
-      ))}
-      <IconButton aria-label="Go back" icon={<IoArrowBack />} as="a" href="/" position="absolute" top="4" left="4" />
-    </HStack>
+            <Divider orientation="vertical" h="100vh" w="2px" />
+          </Fragment>
+        ))}
+        <IconButton aria-label="Go back" icon={<IoArrowBack />} as="a" href="/" position="absolute" top="4" left="4" />
+      </HStack>
+    </VStack>
   )
 }
 
